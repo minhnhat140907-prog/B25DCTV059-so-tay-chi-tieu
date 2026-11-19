@@ -117,7 +117,24 @@ function TransactionForm({ editing, onSubmit, onCancel }) {
       setErrors({});
     }
   };
+/* ---------- Đồng hồ ---------- */
+function Clock() {
+  const [now, setNow] = useState(() => new Date());
 
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id); // dọn dẹp khi component biến mất
+  }, []);
+
+  return (
+    <time className="clock" dateTime={now.toISOString()}>
+      <span className="clock-time">{now.toLocaleTimeString("vi-VN", { hour12: false })}</span>
+      <span className="clock-date">
+        {now.toLocaleDateString("vi-VN", { weekday: "long", day: "2-digit", month: "2-digit", year: "numeric" })}
+      </span>
+    </time>
+  );
+}
   return (
     <section className="panel">
       <h2>{editing ? "Sửa khoản" : "Thêm khoản mới"}</h2>
