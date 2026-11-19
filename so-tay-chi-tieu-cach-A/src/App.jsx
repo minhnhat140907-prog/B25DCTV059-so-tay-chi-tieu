@@ -163,7 +163,32 @@ class TransactionForm extends Component {
     );
   }
 }
+/* ---------- Đồng hồ ---------- */
+class Clock extends Component {
+  state = { now: new Date() };
 
+  // Bắt đầu chạy khi component xuất hiện
+  componentDidMount() {
+    this.timerId = setInterval(() => this.setState({ now: new Date() }), 1000);
+  }
+
+  // Dừng khi component biến mất, tránh chạy ngầm
+  componentWillUnmount() {
+    clearInterval(this.timerId);
+  }
+
+  render() {
+    const { now } = this.state;
+    return (
+      <time className="clock" dateTime={now.toISOString()}>
+        <span className="clock-time">{now.toLocaleTimeString("vi-VN", { hour12: false })}</span>
+        <span className="clock-date">
+          {now.toLocaleDateString("vi-VN", { weekday: "long", day: "2-digit", month: "2-digit", year: "numeric" })}
+        </span>
+      </time>
+    );
+  }
+}
 /* ---------- Bộ lọc ---------- */
 class Filters extends Component {
   handleChange = (e) => this.props.onChange(e.target.name, e.target.value);
